@@ -1,0 +1,66 @@
+# do run.tcl
+# /home/vinhphat-josh/intelFPGA/1800.2-2020-1.0
+# ** Warning: (vlib-34) Library already exists at "work".
+# Model Technology ModelSim - Intel FPGA Edition vmap 10.5b Lib Mapping Utility 2016.10 Oct  5 2016
+# vmap work work 
+# Modifying modelsim.ini
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 21:40:55 on Aug 31,2025
+# vlog -work work -sv "+incdir+/home/vinhphat-josh/intelFPGA/1800.2-2020-1.0/src" /home/vinhphat-josh/intelFPGA/1800.2-2020-1.0/src/uvm_pkg.sv 
+# -- Compiling package uvm_pkg
+# ** Warning: /home/vinhphat-josh/intelFPGA/1800.2-2020-1.0/src/seq/uvm_sequencer_base.svh(1402): (vlog-2186) SystemVerilog testbench feature
+# (randomization, coverage or assertion) detected in the design.
+# These features are only supported in Questasim.
+# ** Warning: /home/vinhphat-josh/intelFPGA/1800.2-2020-1.0/src/reg/uvm_mem_mam.svh(703): (vlog-2186) SystemVerilog testbench feature
+# (randomization, coverage or assertion) detected in the design.
+# These features are only supported in Questasim.
+# ** Warning: /home/vinhphat-josh/intelFPGA/1800.2-2020-1.0/src/seq/uvm_sequence_library.svh(766): (vlog-2186) SystemVerilog testbench feature
+# (randomization, coverage or assertion) detected in the design.
+# These features are only supported in Questasim.
+# 
+# Top level modules:
+# 	--none--
+# End time: 21:40:55 on Aug 31,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 3
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 21:40:55 on Aug 31,2025
+# vlog -work work -sv RTL/design.sv 
+# -- Compiling module cfs_synch
+# -- Compiling module cfs_synch_fifo
+# -- Compiling module cfs_rx_ctrl
+# -- Compiling module cfs_ctrl
+# -- Compiling module cfs_tx_ctrl
+# -- Compiling module cfs_edge_detect
+# -- Compiling module cfs_regs
+# -- Compiling module cfs_aligner_core
+# -- Compiling module cfs_aligner
+# 
+# Top level modules:
+# 	cfs_aligner
+# End time: 21:40:55 on Aug 31,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 21:40:55 on Aug 31,2025
+# vlog -work work -sv testbench/testbench.sv 
+# -- Compiling module testbench
+# -- Importing package uvm_pkg
+# 
+# Top level modules:
+# 	testbench
+# End time: 21:40:55 on Aug 31,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vsim work.testbench -do "run -all; quit" 
+# Start time: 21:40:55 on Aug 31,2025
+# ** Fatal: ** Error: (vsim-3827) Could not compile 'export_tramp.so': cmd = '/bin/gcc   -shared -fPIC -m32 -B/usr/lib/i386-linux-gnu  -g  -I. -I"/home/vinhphat-josh/intelFPGA/18.1/modelsim_ase/include" -I"/home/vinhphat-josh/intelFPGA/18.1/modelsim_ase/../oem/include" -o "/tmp/vinhphat-josh@ubuntu_dpi_20592/linuxpe_gcc-13/export_tramp.so" "/tmp/vinhphat-josh@ubuntu_dpi_20592/linuxpe_gcc-13/export_tramp.S"'
+# (vsim-50) A call to system(/bin/gcc   -shared -fPIC -m32 -B/usr/lib/i386-linux-gnu  -g  -I. -I"/home/vinhphat-josh/intelFPGA/18.1/modelsim_ase/include" -I"/home/vinhphat-josh/intelFPGA/18.1/modelsim_ase/../oem/include" -o "/tmp/vinhphat-josh@ubuntu_dpi_20592/linuxpe_gcc-13/export_tramp.so" "/tmp/vinhphat-josh@ubuntu_dpi_20592/linuxpe_gcc-13/export_tramp.S" >'/tmp/questatmp.v8ZQYP' 2>&1) returned error code '1'.
+# The logfile contains the following messages:
+# gcc: fatal error: '-fuse-linker-plugin', but liblto_plugin.so not found
+# compilation terminated.
+# 
+# No such file or directory. (errno = ENOENT)
+# 
+# 
+# FATAL ERROR while loading design
+# Error loading design
+# End time: 21:40:55 on Aug 31,2025, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
