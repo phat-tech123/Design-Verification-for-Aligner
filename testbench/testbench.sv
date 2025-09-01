@@ -1,21 +1,27 @@
+`include "cfs_algn_test_pkg.sv"
+
 module testbench();
-  
   import uvm_pkg::*;
-  //import cfs_algn_test_pkg::*;
+  import cfs_algn_test_pkg::*;
   
+  //clock sinal
   reg clk;
-  reg reset_n;
   
+  //clock generator
   initial begin
-  	clk = 0;
-    
+    clk = 0;
     forever begin
-    	clk = #5ns ~clk;
+      //generate 100MHz clock
+      clk = #5ns ~clk;
     end
   end
   
+  
+  //reset signal
+  reg reset_n;
+  
   initial begin
-  reset_n = 1;
+  	reset_n = 1;
     #6ns;
     reset_n = 0;
     #30ns;
@@ -23,8 +29,18 @@ module testbench();
   end
   
   
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars;
+    
+    run_test("");
+  end
+  
+  
+  //instantiate DUT
   cfs_aligner dut(
     .clk(clk),
     .reset_n(reset_n)
   );
+  
 endmodule
