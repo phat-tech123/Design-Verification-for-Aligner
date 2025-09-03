@@ -16,16 +16,15 @@ module testbench();
     end
   end
   
-  
-  //reset signal
-  reg reset_n;
+  //Instance of the APB interface
+  cfs_apb_if apb_if(.pclk(clk));
   
   initial begin
-  	reset_n = 1;
-    #6ns;
-    reset_n = 0;
-    #30ns;
-    reset_n = 1;
+	apb_if.preset_n = 1;
+    	#6ns;
+    	apb_if.preset_n = 0;
+    	#30ns;
+    	apb_if.preset_n = 1;
   end
   
   
@@ -33,14 +32,26 @@ module testbench();
     $dumpfile("dump.vcd");
     $dumpvars;
     
+    uvm_config_db#(virtual cfs_apb_if)::set(null, "uvm_test_top.env.apb_agent", "vif", apb_if);
+    
+    //Start UVM test and phases
     run_test("");
   end
   
   
   //instantiate DUT
   cfs_aligner dut(
-    .clk(clk),
-    .reset_n(reset_n)
+    	.clk(clk),
+
+    	.reset_n(apb_if.preset_n),	
+	.psel(apb_if.psel),
+	.penable(apb_if.penable),
+	.pwrite(apb_if.pwrite),
+	.paddr(apb_if.paddr),
+	.pwdata(apb_if.pwdata),
+	.pready(apb_if.pready),
+	.prdata(apb_if.prdata),
+	.pslverr(apb_if.pslverr)
   );
   
 endmodule
