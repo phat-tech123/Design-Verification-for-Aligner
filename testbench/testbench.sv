@@ -1,4 +1,4 @@
-`include "cfs_algn_test_pkg.sv"
+`include "./packages/cfs_algn_test_pkg.sv"
 
 module testbench();
   import uvm_pkg::*;
