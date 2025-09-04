@@ -13,7 +13,16 @@
 		
 		#100ns;
 
+		for(int i = 0; i < 10; i++) begin
+			cfs_apb_item_drv item = cfs_apb_item_drv::type_id::create("item");
+
+			void'(std::randomize(item));
+			
+			`uvm_info("DEBUG", $sformatf("[%0d] item: %0s", i, item.convert2string()), UVM_LOW);
+		end
+
 		`uvm_info("DEBUG", "End of test", UVM_LOW);
+
 		phase.drop_objection(this, "TEST DONE");
 	endtask
   endclass
