@@ -9,25 +9,46 @@
 		super.new(name, parent);
 	endfunction
 
-  cfs_apb_agent_config agent_config;
+	//Agent configuration handler  
+	cfs_apb_agent_config agent_config;
 
-  virtual function void build_phase(uvm_phase phase);
-	build_phase(phase);
+	//Sequencer handler  
+	cfs_apb_sequencer sequencer;
 
-  	agent_config = cfs_apb_agent_config::type_id::create("agent_config", this);
-  endfunction
+	//Driver handler  
+	cfs_apb_driver driver;
 
-  virtual function void connect_phase(uvm_phase phase);
-	cfs_apb_vif vif;
 
-	super.connect_phase(phase);
+	//Build phase
+	virtual function void build_phase(uvm_phase phase);
+		super.build_phase(phase);
 
-	if(uvm_config_db#(cfs_apb_vif)::get(this, "", "vif", vif) == 0) begin 
-		`uvm_fatal("APB_NO_VIF", "Could not get from the database the APB vitual interface")
-	end else begin
-		agent_config.set_vif(vif);
-	end
-  endfunction
+		agent_config = cfs_apb_agent_config::type_id::create("agent_config", this);
+
+		if(agent_config.get_active_passive() == UVM_ACTIVE) begin
+			sequencer = cfs_apb_sequencer::type_id::create("sequencer", this);
+			driver = cfs_apb_driver::type_id::create("driver", this);
+		end
+	endfunction
+
+	//Connect phase
+	virtual function void connect_phase(uvm_phase phase);
+		cfs_apb_vif vif;
+
+		super.connect_phase(phase);
+
+		// Connect virtual interface
+		if(uvm_config_db#(cfs_apb_vif)::get(this, "", "vif", vif) == 0) begin 
+			`uvm_fatal("APB_NO_VIF", "Could not get from the database the APB virtual interface")
+		end else begin
+			agent_config.set_vif(vif);
+		end
+
+		// Connect sequencer to driver
+		if(agent_config.get_active_passive() == UVM_ACTIVE) begin
+			driver.seq_item_port.connect(sequencer.seq_item_export);
+		end
+	endfunction
 
   endclass
 `endif

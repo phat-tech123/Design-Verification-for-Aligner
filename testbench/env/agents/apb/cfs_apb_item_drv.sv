@@ -30,7 +30,7 @@
 		string result = $sformatf("dir: %0s, addr: %0x", dir.name(), addr);
 
 		if(dir == CFS_APB_WRITE) begin
-			result = $sformatf("%0s, %data: %0x", result, data);
+			result = $sformatf("%0s, data: %0x", result, data);
 		end
 
 		result = $sformatf("%0s, pre_drive_delay:%0d, post_drive_delay:%0d",

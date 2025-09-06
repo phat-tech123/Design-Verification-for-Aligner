@@ -13,13 +13,37 @@
 		
 		#100ns;
 
-		for(int i = 0; i < 10; i++) begin
-			cfs_apb_item_drv item = cfs_apb_item_drv::type_id::create("item");
+		//
+		fork	
+		begin
+			cfs_apb_sequence_simple seq_simple = cfs_apb_sequence_simple::type_id::create("seq_simple");
 
-			void'(std::randomize(item));
-			
-			`uvm_info("DEBUG", $sformatf("[%0d] item: %0s", i, item.convert2string()), UVM_LOW);
+			void'(seq_simple.randomize() with {
+				item.addr == 'h222;
+			});
+
+			seq_simple.start(env.apb_agent.sequencer);
 		end
+
+		begin
+			cfs_apb_sequence_rw req_rw = cfs_apb_sequence_rw::type_id::create("req_rw");
+
+			void'(req_rw.randomize() with{
+				req_rw.addr == 'h4;
+			});
+			req_rw.start(env.apb_agent.sequencer);
+		end
+
+		begin
+			cfs_apb_sequence_random req_random = cfs_apb_sequence_random::type_id::create("req_random");
+
+			void'(req_random.randomize() with{
+				req_random.num_items == 3;
+			});
+			req_random.start(env.apb_agent.sequencer);
+		end
+		join
+		//
 
 		`uvm_info("DEBUG", "End of test", UVM_LOW);
 
