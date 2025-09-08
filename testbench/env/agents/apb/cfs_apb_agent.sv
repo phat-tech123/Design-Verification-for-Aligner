@@ -18,16 +18,20 @@
 	//Driver handler  
 	cfs_apb_driver driver;
 
+	//Monitor handler
+	cfs_apb_monitor monitor;
+
 
 	//Build phase
 	virtual function void build_phase(uvm_phase phase);
 		super.build_phase(phase);
 
 		agent_config = cfs_apb_agent_config::type_id::create("agent_config", this);
+		monitor      = cfs_apb_monitor::type_id::create("monitor", this);	
 
 		if(agent_config.get_active_passive() == UVM_ACTIVE) begin
 			sequencer = cfs_apb_sequencer::type_id::create("sequencer", this);
-			driver = cfs_apb_driver::type_id::create("driver", this);
+			driver 	  = cfs_apb_driver::type_id::create("driver", this);
 		end
 	endfunction
 
@@ -43,6 +47,8 @@
 		end else begin
 			agent_config.set_vif(vif);
 		end
+
+		monitor.agent_config = agent_config;
 
 		// Connect sequencer to driver
 		if(agent_config.get_active_passive() == UVM_ACTIVE) begin
