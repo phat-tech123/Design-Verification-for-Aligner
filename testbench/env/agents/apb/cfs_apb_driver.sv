@@ -3,6 +3,7 @@
 
   class cfs_apb_driver extends uvm_driver#(.REQ(cfs_apb_item_drv));
 
+	//Pointer to agent configuration
 	cfs_apb_agent_config agent_config;
 
 	`uvm_component_utils(cfs_apb_driver)
@@ -15,6 +16,7 @@
 		drive_transactions();
 	endtask
 
+	//Task for driving all transactions
 	protected virtual task drive_transactions();
 		cfs_apb_vif vif = agent_config.get_vif();
 
@@ -37,6 +39,7 @@
 
 	endtask
 
+	//Task which drives one single item on the bus
 	protected virtual task drive_transaction(cfs_apb_item_drv item);
 
 		cfs_apb_vif vif = agent_config.get_vif();
