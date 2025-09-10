@@ -13,7 +13,14 @@
 		
 		#100ns;
 
-		//
+		//--------------------- TEST HAS_CHECKS ----------------------
+//		begin 
+//			cfs_apb_vif vif = env.apb_agent.agent_config.get_vif();
+//			vif.has_checks = 0;
+//		end
+		//--------------------- HAS_CHECKS OKAY ----------------------
+
+		//---------------------- TEST SEQUENCE -----------------------
 		fork	
 		begin
 			cfs_apb_sequence_simple seq_simple = cfs_apb_sequence_simple::type_id::create("seq_simple");
@@ -45,7 +52,7 @@
 			req_random.start(env.apb_agent.sequencer);
 		end
 		join
-		//
+		//---------------------- SEQUENCE OKAY -----------------------
 
 		`uvm_info("DEBUG", "End of test", UVM_LOW);
 
