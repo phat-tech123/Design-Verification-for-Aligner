@@ -11,6 +11,9 @@
 
 	//Switch to enable checks
 	local bit has_checks;
+
+	//Switch to enable coverage
+	local bit has_coverage;
 	
 	//Number of clock cycles after which an APB transfer is considered
     	local int unsigned stuck_threshold;
@@ -21,8 +24,9 @@
 		super.new(name, parent);
 
 		active_passive = UVM_ACTIVE;
-		has_checks = 1;
-		stuck_threshold = 2;
+		has_checks 	= 1;
+		stuck_threshold = 1000;
+		has_coverage 	= 1;
 	endfunction
 
 	//Getter for virutal interface
@@ -63,6 +67,16 @@
 		if(vif != null) begin
 			vif.has_checks = has_checks;
 		end
+	endfunction
+
+	//Getter for has_coverage
+	virtual function bit get_has_coverage();
+		return has_coverage;
+	endfunction
+
+	//Setter for has_coverage
+	virtual function void set_has_coverage(bit value);
+		has_coverage = value;
 	endfunction
 
 	//Getter for stuck_threshold 

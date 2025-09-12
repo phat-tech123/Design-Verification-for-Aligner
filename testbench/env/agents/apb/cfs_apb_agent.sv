@@ -21,13 +21,17 @@
 	//Monitor handler
 	cfs_apb_monitor monitor;
 
+	//Coverage handler
+	cfs_apb_coverage coverage;
 
 	//Build phase
 	virtual function void build_phase(uvm_phase phase);
 		super.build_phase(phase);
 
-		agent_config = cfs_apb_agent_config::type_id::create("agent_config", this);
-		monitor      = cfs_apb_monitor::type_id::create("monitor", this);	
+		agent_config 	= cfs_apb_agent_config::type_id::create("agent_config", this);
+		monitor      	= cfs_apb_monitor::type_id::create("monitor", this);	
+
+		coverage    	= cfs_apb_coverage::type_id::create("coverage", this);
 
 		if(agent_config.get_active_passive() == UVM_ACTIVE) begin
 			sequencer = cfs_apb_sequencer::type_id::create("sequencer", this);
@@ -49,6 +53,12 @@
 		end
 
 		monitor.agent_config = agent_config;
+
+		// Connect monitor to coverage
+		if(agent_config.get_has_coverage()) begin
+			coverage.agent_config = agent_config;
+			monitor.output_port.connect(coverage.port_item);
+		end
 
 		// Connect sequencer to driver
 		if(agent_config.get_active_passive() == UVM_ACTIVE) begin
