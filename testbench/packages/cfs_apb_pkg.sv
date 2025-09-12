@@ -16,6 +16,7 @@
 	`include "./../env/agents/apb/cfs_apb_sequencer.sv"
 	`include "./../env/agents/apb/cfs_apb_driver.sv"
 	`include "./../env/agents/apb/cfs_apb_monitor.sv"
+	`include "./../env/agents/apb/cfs_apb_coverage.sv.sv"
 	`include "./../env/agents/apb/cfs_apb_agent.sv"
 
 	`include "./../env/agents/apb/cfs_apb_sequence_base.sv"
