@@ -20,8 +20,25 @@
 //		end
 		//--------------------- HAS_CHECKS OKAY ----------------------
 
-		//---------------------- TEST SEQUENCE -----------------------
 		fork	
+		begin
+			cfs_apb_vif vif = env.apb_agent.agent_config.get_vif();
+
+			repeat(3) begin
+				@(posedge vif.psel);
+			end
+			#(11ns);
+
+			vif.preset_n <= 0;
+
+			repeat(4) begin
+				@(posedge vif.pclk);
+			end
+
+			vif.preset_n <= 1;
+		end
+
+		//---------------------- TEST SEQUENCE -----------------------
 		begin
 			cfs_apb_sequence_simple seq_simple = cfs_apb_sequence_simple::type_id::create("seq_simple");
 
@@ -53,6 +70,15 @@
 		end
 		join
 		//---------------------- SEQUENCE OKAY -----------------------
+		begin
+			cfs_apb_sequence_random req_random = cfs_apb_sequence_random::type_id::create("req_random");
+
+			void'(req_random.randomize() with{
+				req_random.num_items == 3;
+			});
+			req_random.start(env.apb_agent.sequencer);
+		end
+		#(100ns);
 
 		`uvm_info("DEBUG", "End of test", UVM_LOW);
 

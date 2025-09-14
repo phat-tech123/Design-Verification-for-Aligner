@@ -1,13 +1,16 @@
 `ifndef CFS_APB_MONITOR_SV
   `define CFS_APB_MONITOR_SV
 
-  class cfs_apb_monitor extends uvm_monitor;
+  class cfs_apb_monitor extends uvm_monitor implements cfs_apb_reset_handler;
 
 	//Pointer to agent config
 	cfs_apb_agent_config agent_config;
 
 	//output port
 	uvm_analysis_port#(cfs_apb_item_mon) output_port;
+
+	//Process for collect_transactions() task
+	protected process process_collect_transactions;
 
 	`uvm_component_utils(cfs_apb_monitor)
 
@@ -17,13 +20,21 @@
 		output_port = new("output_port", this);
 	endfunction
 
-	virtual task run_phase(uvm_phase phase);
-		collect_transactions();
+	//Task for waiting the reset to end 
+	virtual task wait_reset_end();
+		agent_config.wait_reset_end();
 	endtask
 
-	protected virtual task collect_transactions();
-		forever begin
-			collect_transaction();
+	virtual task run_phase(uvm_phase phase);
+		forever begin 
+			fork
+				begin
+					wait_reset_end();
+					collect_transactions();
+					
+					disable fork;
+				end
+			join
 		end
 	endtask
 
@@ -73,6 +84,25 @@
 
 	endtask
 
+	protected virtual task collect_transactions();
+		fork 
+			begin
+			process_collect_transactions = process::self();
+				forever begin
+					collect_transaction();
+				end
+			end
+		join
+	endtask
+
+	//Function to handle the reset
+	virtual function void handle_reset(uvm_phase phase);
+		if(process_collect_transactions != null) begin
+			process_collect_transactions.kill();
+
+			process_collect_transactions = null;
+		end
+	endfunction
   endclass
 
 `endif

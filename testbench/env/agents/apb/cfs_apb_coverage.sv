@@ -50,7 +50,7 @@
 
   endclass
 
-  class cfs_apb_coverage extends uvm_component;
+  class cfs_apb_coverage extends uvm_component implements cfs_apb_reset_handler;
 
 	cfs_apb_agent_config agent_config;
 
@@ -150,15 +150,11 @@
 		wrap_cover_rd_data_1 = cfs_apb_cover_index_wrapper#(`CFS_APB_MAX_DATA_WIDTH)::type_id::create("wrap_cover_rd_data_1", this);
 	endfunction
 
-	virtual task run_phase(uvm_phase phase);
+  	//Function to handle the reset
+	virtual function void handle_reset(uvm_phase phase);
 		cfs_apb_vif vif = agent_config.get_vif();
-
-		forever begin
-			@(negedge vif.preset_n);
-
-			cover_reset.sample(vif.psel);
-		end
-	endtask
+		cover_reset.sample(vif.psel);
+	endfunction	
 
 	virtual function string coverage2string();
 		string result = {

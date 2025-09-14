@@ -9,6 +9,7 @@
 	import uvm_pkg::*;
 
 	`include "./../env/agents/apb/cfs_apb_types.sv"
+	`include "./../env/agents/apb/cfs_apb_reset_handler.sv"
 	`include "./../env/agents/apb/cfs_apb_item_base.sv"
 	`include "./../env/agents/apb/cfs_apb_item_drv.sv"
 	`include "./../env/agents/apb/cfs_apb_item_mon.sv"
