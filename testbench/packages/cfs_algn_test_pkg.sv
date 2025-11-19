@@ -9,6 +9,7 @@
 	import cfs_algn_pkg::*;
 	import cfs_apb_pkg::*;
 
+	`include "./../tests/cfs_algn_test_defines.sv"
 	`include "./../tests/cfs_algn_test_base.sv"
 	`include "./../tests/cfs_algn_test_reg_access.sv"
   endpackage
